@@ -94,15 +94,19 @@
 
 
 
-<meta name="description" content="Something Just Like This!">
-<meta property="og:type" content="website">
-<meta property="og:title" content="GaoYida">
-<meta property="og:url" content="https://gaoyida.github.io/index.html">
+<meta name="description" content="引言&amp;emsp;&amp;emsp;前不久看到一篇文章，如何做一个靠谱的发号器，觉得是个挺好的设计，于是使用Java实现了一番。 Fly&amp;emsp;&amp;emsp;发号器，取名fly的意思是，像有无数飞虫一样，不断产生，取之不尽。 持久化&amp;emsp;&amp;emsp;UID的生成记录会写入ZooKeeper，服务初始化/重启时从ZooKeeper读取配置信息。使用初始化作为持久化的原因是，ZooKeeper是强一致">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式发号器-Fly">
+<meta property="og:url" content="https://gaoyida.github.io/2019/11/15/分布式发号器-Fly/index.html">
 <meta property="og:site_name" content="GaoYida">
-<meta property="og:description" content="Something Just Like This!">
+<meta property="og:description" content="引言&amp;emsp;&amp;emsp;前不久看到一篇文章，如何做一个靠谱的发号器，觉得是个挺好的设计，于是使用Java实现了一番。 Fly&amp;emsp;&amp;emsp;发号器，取名fly的意思是，像有无数飞虫一样，不断产生，取之不尽。 持久化&amp;emsp;&amp;emsp;UID的生成记录会写入ZooKeeper，服务初始化/重启时从ZooKeeper读取配置信息。使用初始化作为持久化的原因是，ZooKeeper是强一致">
+<meta property="og:image" content="https://gaoyida.github.io/pics/fly/fly-uid-1.png">
+<meta property="og:image" content="https://gaoyida.github.io/pics/fly/fly-uid-2.png">
+<meta property="og:updated_time" content="2019-11-18T01:31:37.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="GaoYida">
-<meta name="twitter:description" content="Something Just Like This!">
+<meta name="twitter:title" content="分布式发号器-Fly">
+<meta name="twitter:description" content="引言&amp;emsp;&amp;emsp;前不久看到一篇文章，如何做一个靠谱的发号器，觉得是个挺好的设计，于是使用Java实现了一番。 Fly&amp;emsp;&amp;emsp;发号器，取名fly的意思是，像有无数飞虫一样，不断产生，取之不尽。 持久化&amp;emsp;&amp;emsp;UID的生成记录会写入ZooKeeper，服务初始化/重启时从ZooKeeper读取配置信息。使用初始化作为持久化的原因是，ZooKeeper是强一致">
+<meta name="twitter:image" content="https://gaoyida.github.io/pics/fly/fly-uid-1.png">
 
 
 
@@ -131,13 +135,13 @@
 
 
 
-  <link rel="canonical" href="https://gaoyida.github.io/"/>
+  <link rel="canonical" href="https://gaoyida.github.io/2019/11/15/分布式发号器-Fly/"/>
 
 
 
 
 
-  <title>GaoYida</title>
+  <title>分布式发号器-Fly | GaoYida</title>
   
 
 
@@ -162,9 +166,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-   page-home 
- ">
+  <div class="container sidebar-position-left page-post-detail ">
     <!--<div class="headband"></div>-->
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -247,9 +249,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -279,9 +281,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/11/15/分布式发号器-Fly/" itemprop="url">分布式发号器-Fly</a></h1>
+          <h1 class="post-title" itemprop="name headline">分布式发号器-Fly</h1>
         
 
         <div class="post-meta">
@@ -353,9 +353,7 @@
       
 
       
-        
-          
-            <h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>&emsp;&emsp;前不久看到一篇文章，<a href="https://tech.youzan.com/id_generator/" target="_blank" rel="external">如何做一个靠谱的发号器</a>，觉得是个挺好的设计，于是使用Java实现了一番。</p>
+        <h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>&emsp;&emsp;前不久看到一篇文章，<a href="https://tech.youzan.com/id_generator/" target="_blank" rel="external">如何做一个靠谱的发号器</a>，觉得是个挺好的设计，于是使用Java实现了一番。</p>
 <h3 id="Fly"><a href="#Fly" class="headerlink" title="Fly"></a><a href="https://github.com/gaoyida/fly" target="_blank" rel="external">Fly</a></h3><p>&emsp;&emsp;发号器，取名fly的意思是，像有无数飞虫一样，不断产生，取之不尽。</p>
 <h3 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h3><p>&emsp;&emsp;UID的生成记录会写入ZooKeeper，服务初始化/重启时从ZooKeeper读取配置信息。使用初始化作为持久化的原因是，ZooKeeper是强一致的，在全局单调ID的生成模式下，如果主服务器宕机，可以切换备服务器工作，备服务器从ZooKeeper读取配置，保证发出的ID是唯一的。<br>&emsp;&emsp;如果采用MySQL和Redis产生ID的实现，由于MySQL和Redis的复制机制无法保证强一致，当MySQL或Redis发生主备切换，备机尚未完全同步的话，还是会发出重复的ID。</p>
 <h3 id="通信协议"><a href="#通信协议" class="headerlink" title="通信协议"></a>通信协议</h3><p>&emsp;&emsp;实现TLV格式的协议。</p>
@@ -380,8 +378,6 @@
 <li>完成客户端实现。</li>
 </ol>
 
-          
-        
       
     </div>
     
@@ -398,169 +394,28 @@
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://gaoyida.github.io/2018/12/17/Mybatis之Possible unexpected auto-mapping/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="GaoYida">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/head.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="GaoYida">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/17/Mybatis之Possible unexpected auto-mapping/" itemprop="url">Mybatis之Possible unexpected auto-mapping</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-17T19:44:27+08:00">
-                2018-12-17
-              </time>
+              <a href="/2018/12/17/Mybatis之Possible unexpected auto-mapping/" rel="next" title="Mybatis之Possible unexpected auto-mapping">
+                <i class="fa fa-chevron-left"></i> Mybatis之Possible unexpected auto-mapping
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/mybatis/" itemprop="url" rel="index">
-                    <span itemprop="name">mybatis</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>&emsp;&emsp;最近在做项目改造，将项目改造成SpringBoot应用。主要工作规整旧的配置，调整部分代码结构，对项目的代码未做变动，完成后提交给QA做回归验证。<br>&emsp;&emsp;就在上周，测试同学将我唤了过去，说有页面请求接口报500。看到现象顿感疑惑，首先我并未修改之前的代码，查看线上master分支是运行正常的，是否是测试环境有脏数据？或者登陆异常？<br>&emsp;&emsp;查看测试环境的日志，代码有一处抛了空指针，为了简化描述，还原当时的代码场景如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="number">105</span> <span class="keyword">for</span> (Account account : accounts) &#123;</div><div class="line"><span class="number">106</span>     User user = userService.findById(account.getUserId());</div><div class="line"><span class="number">107</span>     String userId = user.getName() + <span class="string">"("</span> + account.getUserId() + <span class="string">")"</span>;</div><div class="line"><span class="number">108</span> &#125;</div></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;日志分析空指针是在第107行的 user.getName() 抛出的。一眼看去，的确未对user是否为空作判断，遂执行查询数据库的SQL，看是否有account和user数据不一致的情况，结果user均可查到！让我们看下AccountMapper.xml里的查询：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">resultMap</span> <span class="attr">id</span>=<span class="string">"BaseResultMap"</span> <span class="attr">type</span>=<span class="string">"com.xxx.User"</span>&gt;</span>    </div><div class="line">    <span class="tag">&lt;<span class="name">id</span> <span class="attr">column</span>=<span class="string">"id"</span> <span class="attr">jdbcType</span>=<span class="string">"INTEGER"</span> <span class="attr">property</span>=<span class="string">"id"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"user_id"</span> <span class="attr">jdbcType</span>=<span class="string">"VARCHAR"</span> <span class="attr">property</span>=<span class="string">"userId"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"getAccountDetail"</span> <span class="attr">resultMap</span>=<span class="string">"BaseResultMap"</span>&gt;</span></div><div class="line">    SELECT</div><div class="line">      id,</div><div class="line">      user_id as userId</div><div class="line">    from account</div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;这样看，userId拿出来肯定是空的呀，我们使用的对象里属性是userId，为什么线上master分支还能正确执行？（当时怀疑合代码的问题，后查看master分支代码是一致的）。<br>&emsp;&emsp;为什么相同的代码跑出了不同的结果，还和我预想的结果刚好相反。（猜想是master运行应该也会报错才对）。不对，还是可能存在不同的代码，就是我引入的jar包。在原来的Web工程里，引入的mybais是：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.4.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>当前springboot应用引入的依赖里，使用的mybatis是3.4.5。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis.spring.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.3.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;难道是这两个版本之间的改动？可能别人也遇到过这样的问题。于是到GitHub的mybatis项目上看3.4.3到3.4.5的发布日志，发现了蛛丝马迹：<br><img src="/pics/unexpected-auto-mapping/mybatis895.png"><br>&emsp;&emsp;我们由此知道在3.4.2出现的现象是个bug，3.4.3版本修复了这个问题。问题已经找到。解决办法呢？是修改原有代码还是将错就错？由于原版本一直良好运行，以及提升版本也可能出现其他的问题，于是选择继续沿用3.4.2版本。<br>&emsp;&emsp;坑就如同上述，但是导致这一问题的原因是什么，PR <a href="https://github.com/mybatis/mybatis-3/pull/895" target="_blank" rel="external">#895</a> 是如何修复这个bug的呢？<br>&emsp;&emsp;我们需要对源码作进一步分析。对这个bug的修复主要涉及两个文件——DefaultResultSetHandler.java和ResultMap.java。DefaultResultSetHandler处理SQL查询结果集，生成结果列表。通过debug看到结果映射调用堆栈是（代码版本mybatis 3.4.2）：</p>
-<ul>
-<li>loadMappedAndUnmappedColumnNames</li>
-<li>getUnmappedColumnNames</li>
-<li>createAutomaticMappings</li>
-<li>applyAutomaticMappings</li>
-<li>getRowValue</li>
-<li>handleRowValuesForSimpleResultMap</li>
-<li>handleRowValues</li>
-</ul>
-<p>查看代码片段1，select 出的 userId 因为没有在resultMap里找到column映射，所以被放在unmappedColumnNames里返回。<br><img src="/pics/unexpected-auto-mapping/loadMappedAndUnmappedColumnNames.jpg"><br>查看代码片段2，尝试将unmappedColumnNames放入automapping。<br><img src="/pics/unexpected-auto-mapping/createAutomaticMappings.jpg"><br>查看代码片段3，得到userId的value.<br><img src="/pics/unexpected-auto-mapping/userid.png"><br>查看代码片段4，代码里先automapping，再使用propertymapping，所以查出的结果userId值获取到了。<br><img src="/pics/unexpected-auto-mapping/mappingorder.jpg"><br>&emsp;&emsp;当前的判断逻辑是在unmappedColumnNames中的属性，如果对象里有该属性且有set方法会被自动映射(mybatis自动映射是默认打开的)。实际应该在resultmap里未被映射的情况下才使用自动映射，即存在映射如下，默认的userId -&gt; userId不应该生效。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;result column=<span class="string">"user_id"</span> jdbcType=<span class="string">"VARCHAR"</span> property=<span class="string">"userId"</span> /&gt;</div></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;所以在修复的版本(mybatis 3.4.3)中在增加resultmap的property记录，并且增加if判断条件。即unmappedColumnNames中的userId在判断时包含在mappedProperties里，不会被自动映射，会遵从xml里的resultmap。<br><img src="/pics/unexpected-auto-mapping/fix.jpg"><br>&emsp;&emsp;至此问题得到解决，本文主要围绕问题<a href="https://github.com/mybatis/mybatis-3/pull/895" target="_blank" rel="external">#895</a> 分析，感谢阅读。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -570,133 +425,11 @@
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://gaoyida.github.io/2018/02/17/第一篇/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="GaoYida">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/head.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="GaoYida">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/17/第一篇/" itemprop="url">一些记录</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-17T16:31:07+08:00">
-                2018-02-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>Don’t let others noise drown out your own inner voice, and most importantly, have the courage to follow your heart and intuition.</p>
-<p>对一个优秀工程师最大的致敬就是学习并超过他。  </p>
-</blockquote>
-
-          
-        
+    <div class="post-spread">
       
     </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
   </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
 
 
           </div>
@@ -704,6 +437,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -724,8 +461,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/head.jpeg"
@@ -778,6 +524,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fly"><span class="nav-number">2.</span> <span class="nav-text">Fly</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#持久化"><span class="nav-number">3.</span> <span class="nav-text">持久化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通信协议"><span class="nav-number">4.</span> <span class="nav-text">通信协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高可用方案设计"><span class="nav-number">5.</span> <span class="nav-text">高可用方案设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#主备模式"><span class="nav-number">5.1.</span> <span class="nav-text">主备模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#架构图"><span class="nav-number">5.1.1.</span> <span class="nav-text">架构图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#选主"><span class="nav-number">5.1.2.</span> <span class="nav-text">选主</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ID的生成规则"><span class="nav-number">5.1.3.</span> <span class="nav-text">ID的生成规则</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#主备切换"><span class="nav-number">5.1.4.</span> <span class="nav-text">主备切换</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#缺点"><span class="nav-number">5.1.5.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#负载均衡模式"><span class="nav-number">5.2.</span> <span class="nav-text">负载均衡模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#架构图-1"><span class="nav-number">5.2.1.</span> <span class="nav-text">架构图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#部署"><span class="nav-number">5.2.2.</span> <span class="nav-text">部署</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ID的生成规则-1"><span class="nav-number">5.2.3.</span> <span class="nav-text">ID的生成规则</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#服务宕机"><span class="nav-number">5.2.4.</span> <span class="nav-text">服务宕机</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#缺点-1"><span class="nav-number">5.2.5.</span> <span class="nav-text">缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主要代码"><span class="nav-number">6.</span> <span class="nav-text">主要代码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#FlyService"><span class="nav-number">6.1.</span> <span class="nav-text">FlyService</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ForwardService"><span class="nav-number">6.2.</span> <span class="nav-text">ForwardService</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#StateMachine"><span class="nav-number">6.3.</span> <span class="nav-text">StateMachine</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FlyManager"><span class="nav-number">6.4.</span> <span class="nav-text">FlyManager</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TODO"><span class="nav-number">7.</span> <span class="nav-text">TODO</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -898,10 +660,10 @@
 
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
 
-  
+
 
   
 
