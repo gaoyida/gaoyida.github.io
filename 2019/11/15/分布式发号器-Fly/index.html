@@ -94,18 +94,18 @@
 
 
 
-<meta name="description" content="引言&amp;emsp;&amp;emsp;前不久看到一篇文章，如何做一个靠谱的发号器，觉得是个挺好的设计，于是使用Java实现了一番。 Fly&amp;emsp;&amp;emsp;发号器，取名fly的意思是，像有无数飞虫一样，不断产生，取之不尽。 持久化&amp;emsp;&amp;emsp;UID的生成记录会写入ZooKeeper，服务初始化/重启时从ZooKeeper读取配置信息。使用初始化作为持久化的原因是，ZooKeeper是强一致">
+<meta name="description" content="引言&amp;emsp;&amp;emsp;前不久看到一篇文章，如何做一个靠谱的发号器，觉得是个挺好的设计，于是使用Java实现了一番。 Fly&amp;emsp;&amp;emsp;发号器，取名fly的意思是，像有无数飞虫一样，不断产生，取之不尽。查看项目地址。 持久化&amp;emsp;&amp;emsp;UID的生成记录会写入ZooKeeper，服务初始化/重启时从ZooKeeper读取配置信息。使用初始化作为持久化的原因是，ZooKee">
 <meta property="og:type" content="article">
 <meta property="og:title" content="分布式发号器-Fly">
 <meta property="og:url" content="https://gaoyida.github.io/2019/11/15/分布式发号器-Fly/index.html">
 <meta property="og:site_name" content="GaoYida">
-<meta property="og:description" content="引言&amp;emsp;&amp;emsp;前不久看到一篇文章，如何做一个靠谱的发号器，觉得是个挺好的设计，于是使用Java实现了一番。 Fly&amp;emsp;&amp;emsp;发号器，取名fly的意思是，像有无数飞虫一样，不断产生，取之不尽。 持久化&amp;emsp;&amp;emsp;UID的生成记录会写入ZooKeeper，服务初始化/重启时从ZooKeeper读取配置信息。使用初始化作为持久化的原因是，ZooKeeper是强一致">
+<meta property="og:description" content="引言&amp;emsp;&amp;emsp;前不久看到一篇文章，如何做一个靠谱的发号器，觉得是个挺好的设计，于是使用Java实现了一番。 Fly&amp;emsp;&amp;emsp;发号器，取名fly的意思是，像有无数飞虫一样，不断产生，取之不尽。查看项目地址。 持久化&amp;emsp;&amp;emsp;UID的生成记录会写入ZooKeeper，服务初始化/重启时从ZooKeeper读取配置信息。使用初始化作为持久化的原因是，ZooKee">
 <meta property="og:image" content="https://gaoyida.github.io/pics/fly/fly-uid-1.png">
 <meta property="og:image" content="https://gaoyida.github.io/pics/fly/fly-uid-2.png">
-<meta property="og:updated_time" content="2019-11-18T01:31:37.000Z">
+<meta property="og:updated_time" content="2019-11-18T02:08:43.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="分布式发号器-Fly">
-<meta name="twitter:description" content="引言&amp;emsp;&amp;emsp;前不久看到一篇文章，如何做一个靠谱的发号器，觉得是个挺好的设计，于是使用Java实现了一番。 Fly&amp;emsp;&amp;emsp;发号器，取名fly的意思是，像有无数飞虫一样，不断产生，取之不尽。 持久化&amp;emsp;&amp;emsp;UID的生成记录会写入ZooKeeper，服务初始化/重启时从ZooKeeper读取配置信息。使用初始化作为持久化的原因是，ZooKeeper是强一致">
+<meta name="twitter:description" content="引言&amp;emsp;&amp;emsp;前不久看到一篇文章，如何做一个靠谱的发号器，觉得是个挺好的设计，于是使用Java实现了一番。 Fly&amp;emsp;&amp;emsp;发号器，取名fly的意思是，像有无数飞虫一样，不断产生，取之不尽。查看项目地址。 持久化&amp;emsp;&amp;emsp;UID的生成记录会写入ZooKeeper，服务初始化/重启时从ZooKeeper读取配置信息。使用初始化作为持久化的原因是，ZooKee">
 <meta name="twitter:image" content="https://gaoyida.github.io/pics/fly/fly-uid-1.png">
 
 
@@ -354,7 +354,7 @@
 
       
         <h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>&emsp;&emsp;前不久看到一篇文章，<a href="https://tech.youzan.com/id_generator/" target="_blank" rel="external">如何做一个靠谱的发号器</a>，觉得是个挺好的设计，于是使用Java实现了一番。</p>
-<h3 id="Fly"><a href="#Fly" class="headerlink" title="Fly"></a><a href="https://github.com/gaoyida/fly" target="_blank" rel="external">Fly</a></h3><p>&emsp;&emsp;发号器，取名fly的意思是，像有无数飞虫一样，不断产生，取之不尽。</p>
+<h3 id="Fly"><a href="#Fly" class="headerlink" title="Fly"></a>Fly</h3><p>&emsp;&emsp;发号器，取名fly的意思是，像有无数飞虫一样，不断产生，取之不尽。<a href="https://github.com/gaoyida/fly" target="_blank" rel="external">查看项目地址</a>。</p>
 <h3 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h3><p>&emsp;&emsp;UID的生成记录会写入ZooKeeper，服务初始化/重启时从ZooKeeper读取配置信息。使用初始化作为持久化的原因是，ZooKeeper是强一致的，在全局单调ID的生成模式下，如果主服务器宕机，可以切换备服务器工作，备服务器从ZooKeeper读取配置，保证发出的ID是唯一的。<br>&emsp;&emsp;如果采用MySQL和Redis产生ID的实现，由于MySQL和Redis的复制机制无法保证强一致，当MySQL或Redis发生主备切换，备机尚未完全同步的话，还是会发出重复的ID。</p>
 <h3 id="通信协议"><a href="#通信协议" class="headerlink" title="通信协议"></a>通信协议</h3><p>&emsp;&emsp;实现TLV格式的协议。</p>
 <h3 id="高可用方案设计"><a href="#高可用方案设计" class="headerlink" title="高可用方案设计"></a>高可用方案设计</h3><p>&emsp;&emsp;对于全局单调ID的生成，需要使用主备模式；对于全局唯一ID的生成，主备模式和负载均衡模式均可实现。在实际使用时，我们倾向于全局单调ID使用主备模式，全局唯一ID使用负载均衡模式部署服务。</p>
