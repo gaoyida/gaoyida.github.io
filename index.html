@@ -364,7 +364,7 @@
 <li>finishRegistration</li>
 <li>postProcessBeforeDestruction</li>
 </ol>
-<h4 id="任务采集-—-postProcessAfterInitialization"><a href="#任务采集-—-postProcessAfterInitialization" class="headerlink" title="任务采集 — postProcessAfterInitialization"></a>任务采集 — postProcessAfterInitialization</h4><p>&emsp;&emsp;在实例化出Bean，并对Bean进行初始化后，会进入该postProcess方法，对Bean里@Scheduled注解的方法进行解析。（注意同一个方法可能会有多个@Scheduled注解）按照@Scheduled的配置会包装成不同的Task，比如CronTask、IntervalTask。ScheduledTaskRegistrar会对任务容器启动中收集的任务进行暂存，在容器刷新事件发布后，用来启动任务。这里列出了Task的类图：<br><img src="/pics/spring-scheduler/task.png" width="500" height="500"></p>
+<h4 id="任务采集-—-postProcessAfterInitialization"><a href="#任务采集-—-postProcessAfterInitialization" class="headerlink" title="任务采集 — postProcessAfterInitialization"></a>任务采集 — postProcessAfterInitialization</h4><p>&emsp;&emsp;在实例化出Bean，并对Bean进行初始化后，会进入该postProcess方法，对Bean里@Scheduled注解的方法进行解析。（注意同一个方法可能会有多个@Scheduled注解）按照@Scheduled的配置会包装成不同的Task，比如CronTask、IntervalTask。ScheduledTaskRegistrar会对任务容器启动中收集的任务进行暂存，在容器刷新事件发布后，用来启动任务。这里列出了Task的类图：<br><img src="/pics/spring-scheduler/Task.png" width="500" height="500"></p>
 <h4 id="任务注册与启动-—-finishRegistration"><a href="#任务注册与启动-—-finishRegistration" class="headerlink" title="任务注册与启动 — finishRegistration"></a>任务注册与启动 — finishRegistration</h4><p>&emsp;&emsp;Spring应用启动完成后，会发布ContextRefreshedEvent，ScheduledAnnotationBeanPostProcessor在onApplicationEvent方法里会对Bean实例化期间收集的调度任务进行启动。<br>&emsp;&emsp;任务的注册启动涉及三个组件：</p>
 <ol>
 <li>Task （调度方法/Bean的包装类-ScheduledMethodRunnable）</li>

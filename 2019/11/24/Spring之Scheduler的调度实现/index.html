@@ -100,12 +100,12 @@
 <meta property="og:url" content="https://gaoyida.github.io/2019/11/24/Spring之Scheduler的调度实现/index.html">
 <meta property="og:site_name" content="GaoYida">
 <meta property="og:description" content="序言&amp;emsp;&amp;emsp;日常开发中，经常会接触定时任务，比如数据同步，数据的聚合，报表发送等等。目前常用的调度第三方库有Spring-Schedule，Quartz等，本文主要介绍Spring-Schedule的调度实现。 示例&amp;emsp;&amp;emsp;首先pom里引入依赖：123456789101112&amp;lt;!--spring-boot--&amp;gt;&amp;lt;dependency&amp;gt;">
-<meta property="og:image" content="https://gaoyida.github.io/pics/spring-scheduler/task.png">
-<meta property="og:updated_time" content="2019-12-10T13:55:14.000Z">
+<meta property="og:image" content="https://gaoyida.github.io/pics/spring-scheduler/Task.png">
+<meta property="og:updated_time" content="2019-12-10T14:04:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring之Schedule的调度实现">
 <meta name="twitter:description" content="序言&amp;emsp;&amp;emsp;日常开发中，经常会接触定时任务，比如数据同步，数据的聚合，报表发送等等。目前常用的调度第三方库有Spring-Schedule，Quartz等，本文主要介绍Spring-Schedule的调度实现。 示例&amp;emsp;&amp;emsp;首先pom里引入依赖：123456789101112&amp;lt;!--spring-boot--&amp;gt;&amp;lt;dependency&amp;gt;">
-<meta name="twitter:image" content="https://gaoyida.github.io/pics/spring-scheduler/task.png">
+<meta name="twitter:image" content="https://gaoyida.github.io/pics/spring-scheduler/Task.png">
 
 
 
@@ -361,7 +361,7 @@
 <li>finishRegistration</li>
 <li>postProcessBeforeDestruction</li>
 </ol>
-<h4 id="任务采集-—-postProcessAfterInitialization"><a href="#任务采集-—-postProcessAfterInitialization" class="headerlink" title="任务采集 — postProcessAfterInitialization"></a>任务采集 — postProcessAfterInitialization</h4><p>&emsp;&emsp;在实例化出Bean，并对Bean进行初始化后，会进入该postProcess方法，对Bean里@Scheduled注解的方法进行解析。（注意同一个方法可能会有多个@Scheduled注解）按照@Scheduled的配置会包装成不同的Task，比如CronTask、IntervalTask。ScheduledTaskRegistrar会对任务容器启动中收集的任务进行暂存，在容器刷新事件发布后，用来启动任务。这里列出了Task的类图：<br><img src="/pics/spring-scheduler/task.png" width="500" height="500"></p>
+<h4 id="任务采集-—-postProcessAfterInitialization"><a href="#任务采集-—-postProcessAfterInitialization" class="headerlink" title="任务采集 — postProcessAfterInitialization"></a>任务采集 — postProcessAfterInitialization</h4><p>&emsp;&emsp;在实例化出Bean，并对Bean进行初始化后，会进入该postProcess方法，对Bean里@Scheduled注解的方法进行解析。（注意同一个方法可能会有多个@Scheduled注解）按照@Scheduled的配置会包装成不同的Task，比如CronTask、IntervalTask。ScheduledTaskRegistrar会对任务容器启动中收集的任务进行暂存，在容器刷新事件发布后，用来启动任务。这里列出了Task的类图：<br><img src="/pics/spring-scheduler/Task.png" width="500" height="500"></p>
 <h4 id="任务注册与启动-—-finishRegistration"><a href="#任务注册与启动-—-finishRegistration" class="headerlink" title="任务注册与启动 — finishRegistration"></a>任务注册与启动 — finishRegistration</h4><p>&emsp;&emsp;Spring应用启动完成后，会发布ContextRefreshedEvent，ScheduledAnnotationBeanPostProcessor在onApplicationEvent方法里会对Bean实例化期间收集的调度任务进行启动。<br>&emsp;&emsp;任务的注册启动涉及三个组件：</p>
 <ol>
 <li>Task （调度方法/Bean的包装类-ScheduledMethodRunnable）</li>
